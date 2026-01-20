@@ -35,7 +35,7 @@ if target_id is None:
 print(f"[INFO] TARGET_NAME={TARGET_NAME} -> target_id={target_id}, class_name={CLASSES[target_id]}")
 
 # -------- 1) 找到你训练出来的权重 --------
-weight_path = "/research/home/he234993/PCHCNN/last_model.pth"
+weight_path = "/research/home/he234993/last_model.pth"
 assert os.path.isfile(weight_path), f"权重不存在: {weight_path}"
 print("[INFO] Use weight:", weight_path)
 
