@@ -9,7 +9,7 @@ from model import create_model
 
 # ===================== 你只需要改这里 =====================
 TARGET_NAME = "arytenoid"   # "arytenoid" /"epiglotis"
-img_path = "/content/drive/MyDrive/train data/laryngoscope-labeling/train/larynx16_jpg.rf.649e43e018470a10934b98adc0376854.jpg"
+img_path = "/research/home/he234993/platypus/Result/PLATYPUS001_FNE_CLINIC1_19Apr2024/_tmp_frames16/00000.jpg"
 SCORE_THR = 0.15             # 召回优先就低一点
 NMS_IOU = 0.5
 PAD_RATIO = 0.15             # 框扩大比例（只要框到就可以，扩大点更稳）
@@ -109,7 +109,7 @@ cv2.putText(
     cv2.LINE_AA,
 )
 
-out_dir = "/content/infer"
+out_dir = "/research/home/he234993/platypus/Results"
 os.makedirs(out_dir, exist_ok=True)
 out_path = os.path.join(out_dir, "single_result.jpg")
 cv2.imwrite(out_path, vis)
