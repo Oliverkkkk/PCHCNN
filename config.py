@@ -5,13 +5,11 @@ NUM_EPOCHS = 10 # number of epochs to train for
 NUM_WORKERS = 2
 DEVICE = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 # training images and XML files directory
-TRAIN_DIR = 'data/images/train'
+TRAIN_DIR = "/content/drive/MyDrive/train data/laryngoscope-labeling_xml/train"
 # validation images and XML files directory
-VALID_DIR = 'data/images/valid'
+VALID_DIR = "/content/drive/MyDrive/train data/laryngoscope-labeling_xml/train"
 # classes: 0 index is reserved for background
-CLASSES = [
-    '__background__', "arytenoid cartilagerotation", "larynxrotation"
-]
+CLASSES = ['__background__', 'arytenoid cartilagerotation', 'epiglottisrotation', 'larynxrotation']
 NUM_CLASSES = len(CLASSES)
 # whether to visualize images after crearing the data loaders
 VISUALIZE_TRANSFORMED_IMAGES = False
