@@ -35,12 +35,10 @@ if target_id is None:
 print(f"[INFO] TARGET_NAME={TARGET_NAME} -> target_id={target_id}, class_name={CLASSES[target_id]}")
 
 # -------- 1) 找到你训练出来的权重 --------
-cand = []
-cand += glob.glob(os.path.join(OUT_DIR, "*.pth"))
-cand += glob.glob(os.path.join(OUT_DIR, "*.pt"))
-assert len(cand) > 0, f"OUT_DIR 里没找到权重文件: {OUT_DIR}"
-weight_path = sorted(cand, key=os.path.getmtime)[-1]
+weight_path = "/research/home/he234993/PCHCNN/last_model.pth"
+assert os.path.isfile(weight_path), f"权重不存在: {weight_path}"
 print("[INFO] Use weight:", weight_path)
+
 
 # -------- 2) 加载模型 --------
 num_classes = len(CLASSES)
