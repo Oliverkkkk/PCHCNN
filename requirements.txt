@@ -476,7 +476,6 @@ pyerfa==2.0.1.5
 pygame==2.6.1
 pygit2==1.19.1
 Pygments==2.19.2
-PyGObject==3.48.2
 PyJWT==2.10.1
 pymc==5.27.0
 pynndescent==0.6.0
