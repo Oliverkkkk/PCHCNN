@@ -32,9 +32,9 @@ from model import create_model
 
 
 # -------------------- HARD-CODED PATHS --------------------
-JSON_PATH = "/research/home/he234993/platypus/all_data/all_data_correct_ts.json"
+JSON_PATH = "/research/home/he234993/platypus/all_data/test demo val.json"
 WEIGHT_PATH = "/research/home/he234993/last_model.pth"
-OUT_ROOT = "/research/home/he234993/platypus/Results"
+OUT_ROOT = "/research/home/he234993/platypus/DemoResults"
 
 # 如果 JSON 里 video_path 不是绝对路径（像 "xxx.mp4"），会按下面这些候选根目录去拼
 VIDEO_ROOT_CANDIDATES = [
