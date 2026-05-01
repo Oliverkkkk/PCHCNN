@@ -485,7 +485,7 @@ PyOpenGL==3.1.10
 pyOpenSSL==24.2.1
 pyparsing==3.3.1
 pyperclip==1.11.0
-pyproj==3.7.2
+pyproj==3.7.1
 pysal==25.7
 pyshp==3.0.3
 PySocks==1.7.1
