@@ -22,7 +22,7 @@ apsw==3.51.1.0
 apswutils==0.1.2
 argon2-cffi==25.1.0
 argon2-cffi-bindings==25.1.0
-array_record==0.8.3
+array_record==0.8.1
 arrow==1.4.0
 arviz==0.22.0
 astropy==7.2.0
