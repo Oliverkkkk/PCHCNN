@@ -308,7 +308,7 @@ lazr.uri==1.0.6
 lazy_loader==0.4
 libclang==18.1.1
 libkvikio-cu12==25.10.0
-libpysal==4.14.0
+libpysal==4.12.1
 librosa==0.11.0
 libucx-cu12==1.19.0
 libucxx-cu12==0.46.0
