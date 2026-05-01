@@ -25,7 +25,7 @@ argon2-cffi-bindings==25.1.0
 array_record==0.8.1
 arrow==1.4.0
 arviz==0.22.0
-astropy==7.2.0
+astropy==6.1.7
 astropy-iers-data==0.2026.1.5.0.43.43
 astunparse==1.6.3
 atpublic==5.1
