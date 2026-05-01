@@ -474,7 +474,7 @@ PyDrive2==1.21.3
 pydub==0.25.1
 pyerfa==2.0.1.5
 pygame==2.6.1
-pygit2==1.19.1
+pygit2==1.18.2
 Pygments==2.19.2
 PyJWT==2.10.1
 pymc==5.27.0
