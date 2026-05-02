@@ -468,7 +468,6 @@ pysal==25.7
 pyshp==3.0.3
 PySocks==1.7.1
 pyspark==4.0.1
-pytensor==2.34.0
 pytest==8.4.2
 python-apt==0.0.0
 python-box==7.3.2
