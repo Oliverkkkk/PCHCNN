@@ -1,22 +1,23 @@
 # -*- coding: utf-8 -*-
 """
-Build boxed K5 frame sets from all_data_correct_ts_k5.json and save them to
-Result_K5 with a Result_train-like directory structure.
+Build boxed K4 frame sets from all_data_correct_ts_k4.json and save them to
+Result_K4-like folders.
 
 Output structure:
   /research/home/he234993/platypus/all_data/Result_K5/
-      S001/
+      PLATYPUS001_FNE_CLINIC1_19Apr2024/
         arytenoids/
           000206.jpg
           ...
-          frames_k5_n16.json
+          frames_k4_n16.json
         epiglottis/
           000472.jpg
           ...
-          frames_k5_n16.json
+          frames_k4_n16.json
 
-Unlike the RAG-frames script, this script reads the selected frame indices from
-JSON and fetches those frames from the original video.
+Unlike the RAG-frames script, this script reads the starting frame index from
+JSON and fetches 16 frames from the original video using:
+  best_frame_idx + i * 2, where i = 0..15
 """
 
 import json
@@ -34,9 +35,9 @@ from model import create_model
 
 
 # -------------------- HARD-CODED PATHS --------------------
-JSON_PATH = "/research/home/he234993/platypus/all_data/all_data_correct_ts_k5.json"
+JSON_PATH = "/research/home/he234993/platypus/all_data/all_data_correct_ts_k4.json"
 WEIGHT_PATH = "/research/home/he234993/last_model.pth"
-OUT_ROOT = "/research/home/he234993/platypus/all_data/Result_K5"
+OUT_ROOT = "/research/home/he234993/platypus/all_data/Result_K4"
 
 VIDEO_ROOT_CANDIDATES = [
     "/research/home/he234993/platypus/all_data/all_video",
@@ -104,6 +105,11 @@ def resolve_video_path(video_path: str) -> str:
         if os.path.isfile(cand):
             return cand
     return ""
+
+
+def build_indices_from_start(start_idx: int, num_frames: int = 16, stride: int = 2) -> List[int]:
+    start_idx = int(max(0, start_idx))
+    return [start_idx + i * stride for i in range(num_frames)]
 
 
 def read_frame_by_index(cap: cv2.VideoCapture, frame_idx: int) -> Optional[np.ndarray]:
@@ -178,15 +184,27 @@ def draw_box(bgr_img: np.ndarray, box: List[int], label: str, score: float) -> n
 
 
 def get_sample_id(sample: Dict[str, Any]) -> str:
+    video_path = str(sample.get("video_path", "") or sample.get("video_full_path", "")).strip()
+    if video_path:
+        return Path(video_path).stem
+
+    for organ in ["arytenoids", "epiglottis"]:
+        info = ((sample.get("sam2_frames") or {}).get(organ) or {})
+        frame_rel_path = str(info.get("frame_rel_path", "")).strip()
+        if frame_rel_path:
+            parent_name = Path(frame_rel_path).parent.name
+            if parent_name:
+                return parent_name
+
     for key in ["video_id", "id"]:
         value = sample.get(key)
         if value:
-            return str(value).split("_")[0]
+            return str(value)
     return "unknown_sample"
 
 
 def get_frames_dirname(frame_indices: List[int]) -> str:
-    return f"frames_k5_n{len(frame_indices)}"
+    return f"frames_k4_n{len(frame_indices)}"
 
 
 def write_sidecar_json(
@@ -227,11 +245,13 @@ def process_one_organ(
     video_abs: str,
 ) -> int:
     info = ((sample.get("sam2_frames") or {}).get(organ) or {})
-    frame_indices = info.get("best_block_frames") or []
+    start_idx = info.get("best_frame_idx")
 
-    if not frame_indices:
-        print(f"[WARN] no best_block_frames: sample={sample_id} organ={organ}")
+    if start_idx is None:
+        print(f"[WARN] no best_frame_idx: sample={sample_id} organ={organ}")
         return 0
+
+    frame_indices = build_indices_from_start(int(start_idx), num_frames=16, stride=2)
 
     frames_dirname = get_frames_dirname(frame_indices)
     out_dir = out_root / sample_id / organ
@@ -245,9 +265,14 @@ def process_one_organ(
         return 0
 
     saved = 0
+    total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT) or 0)
     first_idx = int(frame_indices[0])
     for frame_idx in frame_indices:
-        frame = read_frame_by_index(cap, int(frame_idx))
+        use_idx = int(frame_idx)
+        if total_frames > 0 and use_idx >= total_frames:
+            use_idx = first_idx
+
+        frame = read_frame_by_index(cap, use_idx)
         if frame is None:
             frame = read_frame_by_index(cap, first_idx)
         if frame is None:
@@ -264,7 +289,7 @@ def process_one_organ(
                 box, sc = [0, 0, w - 1, h - 1], 0.0
 
         vis = draw_box(frame, box, target_label, sc)
-        out_path = out_dir / f"{int(frame_idx):06d}.jpg"
+        out_path = out_dir / f"{int(use_idx):06d}.jpg"
         cv2.imwrite(str(out_path), vis)
         saved += 1
 
