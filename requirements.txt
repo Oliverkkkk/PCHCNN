@@ -578,7 +578,7 @@ sphinxcontrib-qthelp==2.0.0
 sphinxcontrib-serializinghtml==2.0.0
 spint==1.0.7
 splot==1.1.7
-spopt==0.7.0
+spopt==0.6.1
 spreg==1.8.4
 SQLAlchemy==2.0.45
 sqlalchemy-spanner==1.17.2
