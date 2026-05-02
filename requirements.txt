@@ -680,7 +680,7 @@ wordcloud==1.9.5
 wrapt==2.0.1
 wurlitzer==3.1.1
 xarray==2025.6.1
-xarray-einstats==0.9.1
+xarray-einstats==0.8.0
 xgboost==3.1.2
 xlrd==2.0.2
 xxhash==3.6.0
