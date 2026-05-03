@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Build boxed K4 frame sets from all_data_correct_ts_k4.json and save them to
-Result_K4-like folders.
+Build boxed frame sets from a K-json file and save them to Result folders.
 
 Output structure:
   /research/home/he234993/platypus/all_data/Result_K5/
@@ -9,11 +8,11 @@ Output structure:
         arytenoids/
           000206.jpg
           ...
-          frames_k4_n16.json
+          frames_k7_n16.json
         epiglottis/
           000472.jpg
           ...
-          frames_k4_n16.json
+          frames_k7_n16.json
 
 Unlike the RAG-frames script, this script reads the starting frame index from
 JSON and fetches 16 frames from the original video using:
@@ -35,9 +34,12 @@ from model import create_model
 
 
 # -------------------- HARD-CODED PATHS --------------------
-JSON_PATH = "/research/home/he234993/platypus/all_data/all_data_correct_ts_k4.json"
+K_TAG = "k7"
+JSON_PATH = "/research/home/he234993/platypus/all_data/all_data_correct_ts_k7.json"
 WEIGHT_PATH = "/research/home/he234993/last_model.pth"
-OUT_ROOT = "/research/home/he234993/platypus/all_data/Result_K4"
+OUT_ROOT = "/research/home/he234993/platypus/all_data/Result_K7"
+NUM_FRAMES = 16
+FRAME_STRIDE = 2
 
 VIDEO_ROOT_CANDIDATES = [
     "/research/home/he234993/platypus/all_data/all_video",
@@ -204,7 +206,7 @@ def get_sample_id(sample: Dict[str, Any]) -> str:
 
 
 def get_frames_dirname(frame_indices: List[int]) -> str:
-    return f"frames_k4_n{len(frame_indices)}"
+    return f"frames_{K_TAG}_n{len(frame_indices)}"
 
 
 def write_sidecar_json(
@@ -251,7 +253,7 @@ def process_one_organ(
         print(f"[WARN] no best_frame_idx: sample={sample_id} organ={organ}")
         return 0
 
-    frame_indices = build_indices_from_start(int(start_idx), num_frames=16, stride=2)
+    frame_indices = build_indices_from_start(int(start_idx), num_frames=NUM_FRAMES, stride=FRAME_STRIDE)
 
     frames_dirname = get_frames_dirname(frame_indices)
     out_dir = out_root / sample_id / organ
