@@ -34,10 +34,10 @@ from model import create_model
 
 
 # -------------------- HARD-CODED PATHS --------------------
-K_TAG = "k7"
-JSON_PATH = "/research/home/he234993/platypus/all_data/all_data_correct_ts_k7.json"
+K_TAG = "k8"
+JSON_PATH = "/research/home/he234993/platypus/all_data/all_data_correct_ts_k8.json"
 WEIGHT_PATH = "/research/home/he234993/last_model.pth"
-OUT_ROOT = "/research/home/he234993/platypus/all_data/Result_K7"
+OUT_ROOT = "/research/home/he234993/platypus/all_data/Result_K8"
 NUM_FRAMES = 16
 FRAME_STRIDE = 2
 
